@@ -180,7 +180,7 @@ class PageTransport extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 15),
       child: DropdownButtonFormField<String>(
-        value: selectedValue.value.isEmpty ? null : selectedValue.value,
+        initialValue: selectedValue.value.isEmpty ? null : selectedValue.value,
         decoration: InputDecoration(
           fillColor: Colors.white,
           filled: true,
