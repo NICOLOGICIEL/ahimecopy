@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ahime/models/hotel_model.dart';
 import 'package:ahime/services/api_service.dart';
@@ -29,7 +30,7 @@ class HotelController extends GetxController {
       // Charger les villes/communes pour les filtres
       await loadVilles();
     } catch (e) {
-      print('Erreur lors du chargement des données hôtel: $e');
+      debugPrint('Erreur lors du chargement des données hôtel: $e');
     } finally {
       isLoading.value = false;
     }
@@ -41,7 +42,7 @@ class HotelController extends GetxController {
       var response = await _apiService.getHotels(query: query, type: type);
       hotels.value = response.map((json) => HotelModel.fromJson(json)).toList();
     } catch (e) {
-      print('Erreur lors de la récupération des hôtels: $e');
+      debugPrint('Erreur lors de la récupération des hôtels: $e');
     }
   }
 
@@ -50,7 +51,7 @@ class HotelController extends GetxController {
       var response = await _apiService.getVilles();
       villes.value = List<String>.from(response);
     } catch (e) {
-      print('Erreur lors du chargement des villes: $e');
+      debugPrint('Erreur lors du chargement des villes: $e');
     }
   }
 

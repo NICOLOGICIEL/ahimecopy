@@ -1,6 +1,8 @@
-import 'package:get/get.dart';
+import 'dart:developer' as developer;
+
 import 'package:ahime/models/transport_model.dart';
 import 'package:ahime/services/api_service.dart';
+import 'package:get/get.dart';
 
 class TransportController extends GetxController {
   final ApiService _apiService = Get.find<ApiService>();
@@ -28,8 +30,13 @@ class TransportController extends GetxController {
     try {
       await loadVilles();
       await loadCompagnies();
-    } catch (e) {
-      print('Erreur lors du chargement des données transport: $e');
+    } catch (e, stackTrace) {
+      developer.log(
+        'Erreur lors du chargement des données transport',
+        name: 'TransportController',
+        error: e,
+        stackTrace: stackTrace,
+      );
     } finally {
       isLoading.value = false;
     }
@@ -39,8 +46,13 @@ class TransportController extends GetxController {
     try {
       var response = await _apiService.getVilles();
       villes.value = List<String>.from(response);
-    } catch (e) {
-      print('Erreur lors du chargement des villes: $e');
+    } catch (e, stackTrace) {
+      developer.log(
+        'Erreur lors du chargement des villes',
+        name: 'TransportController',
+        error: e,
+        stackTrace: stackTrace,
+      );
     }
   }
 
@@ -48,8 +60,13 @@ class TransportController extends GetxController {
     try {
       var response = await _apiService.getCompagnies();
       compagnies.value = List<String>.from(response);
-    } catch (e) {
-      print('Erreur lors du chargement des compagnies: $e');
+    } catch (e, stackTrace) {
+      developer.log(
+        'Erreur lors du chargement des compagnies',
+        name: 'TransportController',
+        error: e,
+        stackTrace: stackTrace,
+      );
     }
   }
 
@@ -69,8 +86,13 @@ class TransportController extends GetxController {
       }
       transports.value =
           response.map((json) => TransportModel.fromJson(json)).toList();
-    } catch (e) {
-      print('Erreur lors de la recherche de transports: $e');
+    } catch (e, stackTrace) {
+      developer.log(
+        'Erreur lors de la recherche de transports',
+        name: 'TransportController',
+        error: e,
+        stackTrace: stackTrace,
+      );
     } finally {
       isLoading.value = false;
     }

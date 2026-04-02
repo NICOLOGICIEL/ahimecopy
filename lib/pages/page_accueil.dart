@@ -5,6 +5,22 @@ import 'package:ahime/controllers/accueil_controller.dart';
 import 'package:ahime/config/utils/resizable.dart';
 import 'package:ahime/config/my_config.dart';
 
+class _CategoryItem {
+  const _CategoryItem({
+    required this.title,
+    required this.imagePath,
+    required this.imageWidth,
+    required this.imageHeight,
+    required this.onTap,
+  });
+
+  final String title;
+  final String imagePath;
+  final double imageWidth;
+  final double imageHeight;
+  final VoidCallback onTap;
+}
+
 class PageAccueil extends StatelessWidget {
   const PageAccueil({super.key});
 
@@ -12,19 +28,21 @@ class PageAccueil extends StatelessWidget {
   Widget build(BuildContext context) {
     final AccueilController controller = Get.find();
     SizeConfig().init(context);
-    var myHeight = SizeConfig.safeBlockVertical!;
-    var myWidth = SizeConfig.safeBlockHorizontal!;
+    final double myHeight = SizeConfig.safeBlockVertical!;
+    final double myWidth = SizeConfig.safeBlockHorizontal!;
 
     return Scaffold(
       backgroundColor: myColorBlue,
       body: DoubleBackToCloseApp(
         snackBar: SnackBar(
-            backgroundColor: Colors.black.withOpacity(0.5),
-            margin: const EdgeInsets.all(5),
-            behavior: SnackBarBehavior.floating,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            content: const Text('Appuyez à nouveau sur retour pour quitter')),
+          backgroundColor: Colors.black.withValues(alpha: 0.5),
+          margin: const EdgeInsets.all(5),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          content: const Text('Appuyez à nouveau sur retour pour quitter'),
+        ),
         child: SafeArea(
           child: Container(
             width: myWidth * 100,
@@ -34,15 +52,15 @@ class PageAccueil extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: myHeight * 1),
-                  headBar(),
+                  const HeadBar(),
                   SizedBox(height: myHeight * 1),
                   myPub(myUrl: 'https://ahime-ci.com/slideshow'),
                   SizedBox(height: myHeight * 1),
-                  textCategorie(),
+                  const CategoryTitle(),
                   SizedBox(height: myHeight * 1),
-                  listCategorie(controller),
-                  textNosPartenaire(myHeight),
-                  logoSociete(),
+                  CategoryList(controller: controller),
+                  PartnersTitle(heightUnit: myHeight),
+                  const CompanyLogos(),
                   SizedBox(height: myHeight * 3),
                   const MyFooter(),
                 ],
@@ -55,65 +73,97 @@ class PageAccueil extends StatelessWidget {
   }
 }
 
-// ignore: camel_case_types
-class listCategorie extends StatelessWidget {
+class CategoryList extends StatelessWidget {
   final AccueilController controller;
 
-  const listCategorie(this.controller, {super.key});
+  const CategoryList({required this.controller, super.key});
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    var myHeight = SizeConfig.safeBlockVertical!;
-    var myWidth = SizeConfig.safeBlockHorizontal!;
+    final double myHeight = SizeConfig.safeBlockVertical!;
+    final double myWidth = SizeConfig.safeBlockHorizontal!;
+    final List<_CategoryItem> items = <_CategoryItem>[
+      _CategoryItem(
+        title: 'TRANSPORT',
+        imagePath: '$imageUri/transport.png',
+        imageWidth: 60,
+        imageHeight: 50,
+        onTap: controller.navigateToTransport,
+      ),
+      _CategoryItem(
+        title: 'HÔTEL',
+        imagePath: '$imageUri/hotels.png',
+        imageWidth: 45,
+        imageHeight: 45,
+        onTap: controller.navigateToHotel,
+      ),
+      _CategoryItem(
+        title: 'ARTISAN',
+        imagePath: '$imageUri/artisan.png',
+        imageWidth: 70,
+        imageHeight: 70,
+        onTap: controller.navigateToArtisan,
+      ),
+      _CategoryItem(
+        title: 'IMMOBILIER',
+        imagePath: '$imageUri/immobilier.png',
+        imageWidth: 50,
+        imageHeight: 60,
+        onTap: controller.navigateToImmobilier,
+      ),
+    ];
 
-    return Container(
+    return SizedBox(
       width: myWidth * 100,
       height: myHeight * 14.2,
-      color: Colors.white,
-      child: SingleChildScrollView(
+      child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            sizeSpace(),
-            cardCategorie('TRANSPORT', '$imageUri/transport.png', 60, 50, () {
-              controller.navigateToTransport();
-            }),
-            sizeSpace(),
-            cardCategorie('HÔTEL', '$imageUri/hotels.png', 45, 45, () {
-              controller.navigateToHotel();
-            }),
-            sizeSpace(),
-            cardCategorie('ARTISAN', '$imageUri/artisan.png', 70, 70, () {
-              controller.navigateToArtisan();
-            }),
-            sizeSpace(),
-            cardCategorie('IMMOBILIER', '$imageUri/immobilier.png', 50, 60, () {
-              controller.navigateToImmobilier();
-            }),
-            sizeSpace(),
-          ],
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 6.5),
+        itemCount: items.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 6.5),
+        itemBuilder: (BuildContext context, int index) {
+          final _CategoryItem item = items[index];
+          return _CategoryCard(
+            title: item.title,
+            imagePath: item.imagePath,
+            imageWidth: item.imageWidth,
+            imageHeight: item.imageHeight,
+            onTap: item.onTap,
+          );
+        },
       ),
     );
   }
+}
 
-  SizedBox sizeSpace() => const SizedBox(width: 6.5);
+class _CategoryCard extends StatelessWidget {
+  const _CategoryCard({
+    required this.title,
+    required this.imagePath,
+    required this.imageWidth,
+    required this.imageHeight,
+    required this.onTap,
+  });
 
-  GestureDetector cardCategorie(String titreCard, String imagePath,
-      double largeur, double hauteur, VoidCallback onClic) {
-    //SizeConfig().init(context);
-    var myHeight = SizeConfig.safeBlockVertical!;
-    var myWidth = SizeConfig.safeBlockHorizontal!;
+  final String title;
+  final String imagePath;
+  final double imageWidth;
+  final double imageHeight;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final double myHeight = SizeConfig.safeBlockVertical!;
+    final double myWidth = SizeConfig.safeBlockHorizontal!;
 
     return GestureDetector(
-      onTap: onClic,
+      onTap: onTap,
       child: Container(
         width: myWidth * 31,
         height: myHeight * 15,
         decoration: BoxDecoration(
-          color: Colors.white, // Background color
+          color: Colors.white,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Column(
@@ -122,21 +172,25 @@ class listCategorie extends StatelessWidget {
               width: myWidth * 31,
               height: myHeight * 10,
               decoration: const BoxDecoration(
-                color: myColorBlue, // Background color
+                color: myColorBlue,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10),
                   topRight: Radius.circular(10),
                 ),
               ),
               child: Center(
-                child: Image.asset(imagePath, width: largeur, height: hauteur),
+                child: Image.asset(
+                  imagePath,
+                  width: imageWidth,
+                  height: imageHeight,
+                ),
               ),
             ),
             Container(
               width: myWidth * 31,
               height: myHeight * 4,
               decoration: const BoxDecoration(
-                color: myColorGreen, // Background color
+                color: myColorGreen,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
@@ -144,7 +198,7 @@ class listCategorie extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  titreCard,
+                  title,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 15,
@@ -168,13 +222,13 @@ class MyFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    var myWidth = SizeConfig.safeBlockHorizontal!;
+    final double myWidth = SizeConfig.safeBlockHorizontal!;
 
     return Container(
       width: myWidth * 100,
       height: 62,
       color: Colors.white,
-      child: (Column(
+      child: Column(
         children: [
           const Text(
             'Retrouvez-nous sur',
@@ -204,31 +258,46 @@ class MyFooter extends StatelessWidget {
             ),
           ),
         ],
-      )),
+      ),
     );
   }
 }
 
-Container textNosPartenaire(myheight) => Container(
-      alignment: Alignment.center,
+class PartnersTitle extends StatelessWidget {
+  const PartnersTitle({required this.heightUnit, super.key});
+
+  final double heightUnit;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
       width: 150,
-      height: myheight * 5,
-      child: const Text(
-        'Nos partenaires',
-        style: TextStyle(
-          color: Colors.black,
-          fontSize: 17,
-          fontWeight: FontWeight.bold,
+      height: heightUnit * 5,
+      child: const Center(
+        child: Text(
+          'Nos partenaires',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
     );
+  }
+}
 
-Container textCategorie() => Container(
+class CategoryTitle extends StatelessWidget {
+  const CategoryTitle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
       alignment: Alignment.center,
       width: 135,
       height: 24,
       decoration: BoxDecoration(
-        color: myColorGreen, // Background color
+        color: myColorGreen,
         borderRadius: BorderRadius.circular(20),
       ),
       child: const Text(
@@ -240,54 +309,56 @@ Container textCategorie() => Container(
         ),
       ),
     );
+  }
+}
 
-// ignore: camel_case_types
-class headBar extends StatelessWidget {
-  const headBar({
+class HeadBar extends StatelessWidget {
+  const HeadBar({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    var myWidth = SizeConfig.safeBlockHorizontal!;
+    final double myWidth = SizeConfig.safeBlockHorizontal!;
 
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 10),
       width: myWidth * 95,
       height: 100,
       decoration: BoxDecoration(
-        color: myColorBlue, // Background color
+        color: myColorBlue,
         borderRadius: BorderRadius.circular(20),
       ),
-      child: (Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-              width: 70,
-              height: 70,
-              color: Colors.grey[300],
-              child: Image.asset('$imageUri/ahime.jpg', fit: BoxFit.fill)),
+            width: 70,
+            height: 70,
+            color: Colors.grey[300],
+            child: Image.asset('$imageUri/ahime.jpg', fit: BoxFit.fill),
+          ),
           const Text(
-            "Bienvenue",
+            'Bienvenue',
             style: TextStyle(
-                color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+              color: Colors.white,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           GestureDetector(
             onTap: () {},
-            child: SizedBox(
-              child: Image.asset('$imageUri/IcMenu.png', width: 30, height: 30),
-            ),
+            child: Image.asset('$imageUri/IcMenu.png', width: 30, height: 30),
           ),
         ],
-      )),
+      ),
     );
   }
 }
 
-// ignore: camel_case_types
-class logoSociete extends StatelessWidget {
-  const logoSociete({
+class CompanyLogos extends StatelessWidget {
+  const CompanyLogos({
     super.key,
   });
 
@@ -298,17 +369,18 @@ class logoSociete extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          logoS("$imageUri/gek.jpg"),
-          logoS("$imageUri/logoahime.jpg"),
-          logoS("$imageUri/aim.jpg"),
+          _buildLogo('$imageUri/gek.jpg'),
+          _buildLogo('$imageUri/logoahime.jpg'),
+          _buildLogo('$imageUri/aim.jpg'),
         ],
       ),
     );
   }
 
-  Container logoS(String imagePath) {
-    var myHeight = SizeConfig.safeBlockVertical!;
-    var myWidth = SizeConfig.safeBlockHorizontal!;
+  Container _buildLogo(String imagePath) {
+    final double myHeight = SizeConfig.safeBlockVertical!;
+    final double myWidth = SizeConfig.safeBlockHorizontal!;
+
     return Container(
       width: myWidth * 27,
       height: myHeight * 13,

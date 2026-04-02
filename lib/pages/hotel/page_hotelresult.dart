@@ -315,7 +315,7 @@ class _PageHotelResultState extends State<PageHotelResult> {
     ));
   }
 
-   nbrEtoile(double rating) {
+  nbrEtoile(double rating) {
     return StarRating(
       rating: rating,
       borderColor: const Color.fromARGB(255, 241, 241, 241),
@@ -397,7 +397,7 @@ class _PageHotelResultState extends State<PageHotelResult> {
       height: 2,
       margin: const EdgeInsets.only(top: 3, bottom: 1),
       decoration: BoxDecoration(
-        color: Colors.grey.withOpacity(0.5),
+        color: Colors.grey.withValues(alpha: 0.5),
         borderRadius: BorderRadius.circular(50),
       ),
     );

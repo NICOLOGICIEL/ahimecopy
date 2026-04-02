@@ -48,7 +48,13 @@ class PageArtisan extends StatelessWidget {
                     children: [
                       MyPubText(txLibelle: 'Annonce publicitaire'),
                       SizedBox(height: myHeight * 0.5),
-                      // TODO: Add myPub widget if needed
+                      Container(
+                        height: 100,
+                        color: Colors.grey[200],
+                        child: const Center(
+                          child: Text('Espace publicitaire'),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -78,6 +84,7 @@ class SlideImgAWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     var myWidth = SizeConfig.safeBlockHorizontal!;
+    final ArtisanController controller = Get.find();
     return Container(
       height: 235,
       width: myWidth * 100,
@@ -96,7 +103,25 @@ class SlideImgAWidget extends StatelessWidget {
           BtnRechercherWidget(
             onTap: () {
               if (isMobile()) {
-                // TODO: Implement bottom sheet
+                showModalBottomSheet<void>(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (BuildContext sheetContext) {
+                    return SafeArea(
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.only(
+                          left: 16,
+                          right: 16,
+                          top: 16,
+                          bottom:
+                              MediaQuery.of(sheetContext).viewInsets.bottom +
+                                  16,
+                        ),
+                        child: CtnMenuWidget(controller: controller),
+                      ),
+                    );
+                  },
+                );
               }
               if (isWeb()) {
                 Get.to(() => const PageArtisantRecherche());

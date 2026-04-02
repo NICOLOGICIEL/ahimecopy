@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ahime/models/immobilier_model.dart';
 import 'package:ahime/services/api_service.dart';
@@ -28,21 +29,27 @@ class ImmobilierController extends GetxController {
       await fetchImmobiliers();
       await loadVilles();
     } catch (e) {
-      print('Erreur lors du chargement des données immobilier: $e');
+      debugPrint('Erreur lors du chargement des données immobilier: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void> fetchImmobiliers(
-      {String? query, String? type, String? ville}) async {
+  Future<void> fetchImmobiliers({
+    String? query,
+    String? type,
+    String? ville,
+  }) async {
     try {
       var response = await _apiService.getImmobiliers(
-          query: query, type: type, ville: ville);
+        query: query,
+        type: type,
+        ville: ville,
+      );
       immobiliers.value =
           response.map((json) => ImmobilierModel.fromJson(json)).toList();
     } catch (e) {
-      print('Erreur lors de la récupération des immobiliers: $e');
+      debugPrint('Erreur lors de la récupération des immobiliers: $e');
     }
   }
 
@@ -51,7 +58,7 @@ class ImmobilierController extends GetxController {
       var response = await _apiService.getVilles();
       villes.value = List<String>.from(response);
     } catch (e) {
-      print('Erreur lors du chargement des villes: $e');
+      debugPrint('Erreur lors du chargement des villes: $e');
     }
   }
 
