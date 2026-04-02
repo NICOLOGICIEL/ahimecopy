@@ -1,8 +1,7 @@
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
-import 'package:ahime/pages/artisan/page_artisan.dart';
-import 'package:ahime/pages/hotel/page_hotel.dart';
-import 'package:ahime/pages/transport/page_transport.dart';
+import 'package:get/get.dart';
+import 'package:ahime/controllers/accueil_controller.dart';
 import 'package:ahime/config/utils/resizable.dart';
 import 'package:ahime/config/my_config.dart';
 
@@ -11,6 +10,7 @@ class PageAccueil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AccueilController controller = Get.find();
     SizeConfig().init(context);
     var myHeight = SizeConfig.safeBlockVertical!;
     var myWidth = SizeConfig.safeBlockHorizontal!;
@@ -18,14 +18,13 @@ class PageAccueil extends StatelessWidget {
     return Scaffold(
       backgroundColor: myColorBlue,
       body: DoubleBackToCloseApp(
-        //snackBar:fnSnackmsg(context, 'Appuyez à nouveau sur retour pour quitter'),
         snackBar: SnackBar(
             backgroundColor: Colors.black.withOpacity(0.5),
             margin: const EdgeInsets.all(5),
             behavior: SnackBarBehavior.floating,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            content: Text('Appuyez à nouveau sur retour pour quitter')),
+            content: const Text('Appuyez à nouveau sur retour pour quitter')),
         child: SafeArea(
           child: Container(
             width: myWidth * 100,
@@ -41,11 +40,11 @@ class PageAccueil extends StatelessWidget {
                   SizedBox(height: myHeight * 1),
                   textCategorie(),
                   SizedBox(height: myHeight * 1),
-                  listCategorie(),
+                  listCategorie(controller),
                   textNosPartenaire(myHeight),
                   logoSociete(),
                   SizedBox(height: myHeight * 3),
-                  MyFooter(),
+                  const MyFooter(),
                 ],
               ),
             ),
@@ -58,9 +57,9 @@ class PageAccueil extends StatelessWidget {
 
 // ignore: camel_case_types
 class listCategorie extends StatelessWidget {
-  const listCategorie({
-    super.key,
-  });
+  final AccueilController controller;
+
+  const listCategorie(this.controller, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -79,19 +78,20 @@ class listCategorie extends StatelessWidget {
           children: [
             sizeSpace(),
             cardCategorie('TRANSPORT', '$imageUri/transport.png', 60, 50, () {
-              pushPage(context, const PageTransport());
+              controller.navigateToTransport();
             }),
             sizeSpace(),
             cardCategorie('HÔTEL', '$imageUri/hotels.png', 45, 45, () {
-              pushPage(context, PageHotel());
+              controller.navigateToHotel();
             }),
             sizeSpace(),
             cardCategorie('ARTISAN', '$imageUri/artisan.png', 70, 70, () {
-              pushPage(context, PageArtisan());
+              controller.navigateToArtisan();
             }),
             sizeSpace(),
-            cardCategorie(
-                'IMMOBILIER', '$imageUri/immobilier.png', 50, 60, () {}),
+            cardCategorie('IMMOBILIER', '$imageUri/immobilier.png', 50, 60, () {
+              controller.navigateToImmobilier();
+            }),
             sizeSpace(),
           ],
         ),

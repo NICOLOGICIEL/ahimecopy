@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ahime/controllers/hotel_controller.dart';
+import 'package:ahime/controllers/immobilier_controller.dart';
 import 'package:ahime/config/utils/my_navbar.dart';
 import 'package:ahime/config/my_config.dart';
 import 'package:ahime/config/utils/resizable.dart';
 import 'package:ahime/config/utils/slide_img.dart';
-import 'package:ahime/pages/hotel/page_hotelresult.dart';
 
-class PageHotel extends StatelessWidget {
-  const PageHotel({super.key});
+class PageImmobilier extends StatelessWidget {
+  const PageImmobilier({super.key});
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    final HotelController controller = Get.find<HotelController>();
+    final ImmobilierController controller = Get.find<ImmobilierController>();
 
     return Scaffold(
       backgroundColor: myColorBlue,
@@ -26,7 +25,8 @@ class PageHotel extends StatelessWidget {
             child: Column(
               children: [
                 MyNavbar(context: context),
-                const SlideImg(imgPath: '$imageUri/HotelS.jpg', title: 'Hôtel'),
+                const SlideImg(
+                    imgPath: '$imageUri/ImmobilierS.jpg', title: 'Immobilier'),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, left: 7, right: 7),
                   child: Obx(() => Column(
@@ -43,7 +43,7 @@ class PageHotel extends StatelessWidget {
                                 suffixIcon: IconButton(
                                   icon: const Icon(Icons.search,
                                       color: myColorBlue),
-                                  onPressed: controller.searchHotels,
+                                  onPressed: controller.searchImmobiliers,
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5.0),
@@ -59,44 +59,75 @@ class PageHotel extends StatelessWidget {
                             ),
                           ),
 
-                          // Menu des options
+                          // Dropdown pour le type
                           Container(
-                            padding: const EdgeInsets.only(top: 5),
-                            width: SizeConfig.safeBlockHorizontal! * 100,
-                            height: 95,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(5),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: myColorGreyBorber,
-                                  spreadRadius: 1,
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: DropdownButtonFormField<String>(
+                              value: controller.selectedType.value,
+                              decoration: InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                labelText: 'Type',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
                                 ),
-                              ],
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                _buildMenuButton('Résidence \n  meublée',
-                                    '$imageUri/ResidenceA.png', () {
-                                  Get.to(() => PageHotelResult(
-                                      xEstResidence: true, titre: 'Résidence'));
-                                }),
-                                _buildMenuButton(
-                                    'Hôtels', '$imageUri/hotels.png', () {
-                                  Get.to(() => PageHotelResult(
-                                      xEstHotel: true, titre: 'Hôtel'));
-                                }),
-                                _buildMenuButton('Recherche \n     filtrée',
-                                    '$imageUri/filtre.png', () {
-                                  // Navigation vers page de recherche filtrée
-                                  Get.toNamed('/hotel/search');
-                                }),
-                              ],
+                              ),
+                              items: controller.types.map((type) {
+                                return DropdownMenuItem<String>(
+                                  value: type,
+                                  child: Text(type),
+                                );
+                              }).toList(),
+                              onChanged: controller.updateSelectedType,
                             ),
                           ),
 
-                          SizedBox(height: SizeConfig.safeBlockVertical! * 1),
+                          // Dropdown pour la ville
+                          Container(
+                            margin: const EdgeInsets.only(bottom: 10),
+                            child: DropdownButtonFormField<String>(
+                              value: controller.selectedVille.value.isEmpty
+                                  ? null
+                                  : controller.selectedVille.value,
+                              decoration: InputDecoration(
+                                fillColor: Colors.white,
+                                filled: true,
+                                labelText: 'Ville',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
+                              items: controller.villes.map((ville) {
+                                return DropdownMenuItem<String>(
+                                  value: ville,
+                                  child: Text(ville),
+                                );
+                              }).toList(),
+                              onChanged: controller.updateSelectedVille,
+                            ),
+                          ),
+
+                          // Bouton rechercher
+                          Container(
+                            width: double.infinity,
+                            margin: const EdgeInsets.symmetric(vertical: 10),
+                            child: ElevatedButton(
+                              onPressed: controller.searchImmobiliers,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: myColorBlue,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              child: const Text(
+                                'Rechercher',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            ),
+                          ),
 
                           // Indicateur de chargement
                           if (controller.isLoading.value)
@@ -104,12 +135,12 @@ class PageHotel extends StatelessWidget {
                           else
                             // Liste des résultats (à implémenter selon vos besoins)
                             Container(
-                              height: 100,
+                              height: 200,
                               child: Center(
                                 child: Text(
-                                  controller.hotels.isEmpty
-                                      ? 'Aucun hôtel trouvé'
-                                      : '${controller.hotels.length} hôtels trouvés',
+                                  controller.immobiliers.isEmpty
+                                      ? 'Aucun résultat trouvé'
+                                      : '${controller.immobiliers.length} résultats trouvés',
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ),
@@ -142,35 +173,6 @@ class PageHotel extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildMenuButton(String titre, String imgPath, VoidCallback onTap) {
-    return Column(
-      children: [
-        GestureDetector(
-          onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            width: 70,
-            height: 50,
-            decoration: const ShapeDecoration(
-              color: myColorBlue,
-              shape: StadiumBorder(),
-            ),
-            child: Image.asset(imgPath),
-          ),
-        ),
-        const SizedBox(height: 5),
-        Text(
-          titre,
-          style: const TextStyle(
-            color: Colors.black54,
-            fontSize: 12,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ],
     );
   }
 }
