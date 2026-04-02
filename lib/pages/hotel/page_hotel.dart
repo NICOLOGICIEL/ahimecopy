@@ -103,7 +103,7 @@ class PageHotel extends StatelessWidget {
                             const CircularProgressIndicator()
                           else
                             // Liste des résultats (à implémenter selon vos besoins)
-                            Container(
+                            SizedBox(
                               height: 100,
                               child: Center(
                                 child: Text(

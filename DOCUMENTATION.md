@@ -1251,7 +1251,212 @@ Recherche immobilière avec filtres.
 
 ---
 
-## 15. Conclusion
+## 15. Explication détaillée du dernier commit
+
+### Commit concerné
+
+- **Hash** : `5a3353d92fe96eff7cfa8cb47e1cf5bc4f951387`
+- **Message** : `chore(android): prepare app for Play Store release`
+
+### Objectif du commit
+
+Ce commit ne modifie pas la logique métier Flutter principale de l’application. Son objectif est de **préparer la cible Android pour une publication sur le Google Play Store**.
+
+Autrement dit, ce changement concerne surtout :
+
+- l’identité Android de l’application
+- la signature de build release
+- l’optimisation du binaire final
+- la documentation de la procédure de publication
+
+### Fichiers principalement impactés
+
+Les changements observés concernent notamment :
+
+- `README.md`
+- `android/app/build.gradle`
+- `android/app/proguard-rules.pro`
+- `android/key.properties.example`
+- `android/app/src/main/kotlin/com/ahime/app/MainActivity.kt`
+- suppression implicite de l’ancien point d’entrée Kotlin sous l’ancien package Android
+
+### Détail des changements
+
+#### 15.1 Mise à jour de l’identité Android de l’application
+
+Dans `android/app/build.gradle`, deux éléments importants ont été alignés sur le nouvel identifiant Android :
+
+- `namespace = "com.ahime.app"`
+- `applicationId = "com.ahime.app"`
+
+#### Pourquoi c’est important
+
+- `namespace` définit l’espace de noms utilisé côté Android moderne
+- `applicationId` correspond à l’identifiant unique publié sur le Play Store
+- cet identifiant doit être stable, cohérent et propre avant toute mise en production
+
+Le commit montre donc une volonté de sortir d’un identifiant provisoire ou générique pour adopter un identifiant final plus crédible pour la distribution.
+
+#### 15.2 Alignement du package Kotlin `MainActivity`
+
+Le fichier suivant existe désormais :
+
+- `android/app/src/main/kotlin/com/ahime/app/MainActivity.kt`
+
+avec la déclaration :
+
+```kotlin
+package com.ahime.app
+```
+
+Cela signifie que le point d’entrée Android natif a été déplacé ou recréé pour correspondre au nouveau package applicatif.
+
+En parallèle, l’ancien fichier Kotlin situé sous un package différent a été retiré. Cette action est importante, car elle évite :
+
+- les incohérences entre le package déclaré et l’arborescence réelle
+- les erreurs de build Android
+- les ambiguïtés lors de la génération du binaire release
+
+#### 15.3 Ajout d’une configuration de signature release
+
+Le fichier `android/app/build.gradle` charge maintenant un fichier `key.properties` via :
+
+```gradle
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+```
+
+Puis une configuration `signingConfigs.release` est définie avec :
+
+- `keyAlias`
+- `keyPassword`
+- `storeFile`
+- `storePassword`
+
+#### Pourquoi c’est important
+
+Pour publier sur le Play Store, une application Android doit être **signée** avec une clé dédiée. Ce commit prépare cette étape en externalisant les secrets dans un fichier local non destiné à être commité tel quel.
+
+Cette approche est saine, car elle :
+
+- évite de stocker les mots de passe directement dans `build.gradle`
+- facilite la configuration locale de la signature
+- prépare une vraie build release exploitable pour publication
+
+#### 15.4 Ajout d’un fichier d’exemple pour les secrets Android
+
+Le fichier `android/key.properties.example` a été ajouté avec une structure minimale :
+
+```properties
+storePassword=CHANGE_ME
+keyPassword=CHANGE_ME
+keyAlias=upload
+storeFile=../upload-keystore.jks
+```
+
+#### Rôle de ce fichier
+
+Ce fichier sert de **modèle** pour créer le vrai fichier `android/key.properties` local.
+
+Il permet :
+
+- de documenter les variables attendues par Gradle
+- de standardiser la configuration de signature
+- de réduire les erreurs de configuration pour les futurs développeurs ou lors d’un déploiement
+
+#### 15.5 Sécurisation du type de build `release`
+
+Le bloc `buildTypes.release` a été renforcé :
+
+- utilisation de `signingConfigs.release` si `key.properties` est présent
+- fallback vers `signingConfigs.debug` si le fichier n’existe pas encore
+- activation de `minifyEnabled true`
+- activation de `shrinkResources true`
+- déclaration du fichier `proguard-rules.pro`
+
+#### Effet concret
+
+Ce commit rend la build release plus proche d’une build de production réelle :
+
+- le code et certaines ressources inutiles peuvent être réduits
+- la taille finale de l’application peut diminuer
+- la configuration devient compatible avec les attentes d’une publication Play Store
+
+Le fallback vers la signature debug montre aussi une intention pragmatique : permettre encore certains builds locaux même si la signature finale n’est pas encore configurée.
+
+#### 15.6 Ajout de règles ProGuard spécifiques
+
+Le fichier `android/app/proguard-rules.pro` contient des règles pour conserver plusieurs classes importantes en release :
+
+- Flutter
+- plugins Flutter
+- `flutter_inappwebview`
+- `url_launcher`
+
+ainsi que des règles `-dontwarn` pour Kotlin et AndroidX.
+
+#### Pourquoi c’est important
+
+Quand `minifyEnabled` et `shrinkResources` sont activés, l’outillage Android peut supprimer ou obfusquer du code. Sans règles adaptées, cela peut casser certains plugins au runtime.
+
+Ce commit anticipe donc un risque fréquent des builds release :
+
+- WebView qui ne se charge plus correctement
+- plugins supprimés à tort
+- warnings bruyants ou erreurs liées à l’obfuscation
+
+#### 15.7 Enrichissement de la documentation projet
+
+Le `README.md` a été étendu avec une section dédiée à la publication Android.
+
+La documentation ajoutée couvre notamment :
+
+- l’identifiant d’application Android
+- la configuration du fichier `android/key.properties`
+- la commande de génération du bundle : `flutter build appbundle --release`
+- l’emplacement du fichier `.aab`
+- quelques vérifications à faire avant soumission sur Play Console
+
+#### Intérêt pour l’équipe
+
+Cette partie est essentielle, car elle transforme un simple changement technique en **procédure reproductible**. En pratique, cela réduit la dépendance à la mémoire du développeur qui a préparé la release.
+
+### Lecture globale du commit
+
+Ce commit est un **commit de préparation à la mise en production Android**, pas un commit fonctionnel orienté utilisateur final.
+
+Il marque une transition entre :
+
+- une application Flutter encore en configuration de développement
+- une application Android prête à être empaquetée, signée et soumise au Play Store
+
+### Bénéfices apportés par ce commit
+
+- identifiant Android finalisé et cohérent
+- point d’entrée Kotlin aligné avec le package réel
+- gestion de signature release structurée
+- optimisation du build release activée
+- règles ProGuard préparées pour éviter des régressions en production
+- documentation de publication ajoutée au dépôt
+
+### Points d’attention à retenir
+
+Même après ce commit, une publication Play Store complète suppose encore de vérifier au minimum :
+
+- la présence réelle du fichier `android/key.properties`
+- la disponibilité du keystore de signature
+- la cohérence du nom de package dans tout l’écosystème Android
+- les métadonnées Play Console
+- les tests de la version release sur appareil réel
+
+En résumé, ce commit constitue une **étape de préparation technique sérieuse pour la release Android**. Il professionnalise la configuration de build sans changer le comportement métier visible de l’application Flutter elle-même.
+
+---
+
+## 16. Conclusion
 
 Le projet Ahime est une application Flutter structurée autour de **GetX**, avec une organisation globalement saine entre pages, contrôleurs, modèles et service API. Les fonctionnalités principales sont déjà identifiables et la logique générale est claire.
 

@@ -63,7 +63,7 @@ class PageImmobilier extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(bottom: 10),
                             child: DropdownButtonFormField<String>(
-                              value: controller.selectedType.value,
+                              initialValue: controller.selectedType.value,
                               decoration: InputDecoration(
                                 fillColor: Colors.white,
                                 filled: true,
@@ -86,7 +86,7 @@ class PageImmobilier extends StatelessWidget {
                           Container(
                             margin: const EdgeInsets.only(bottom: 10),
                             child: DropdownButtonFormField<String>(
-                              value: controller.selectedVille.value.isEmpty
+                              initialValue: controller.selectedVille.value.isEmpty
                                   ? null
                                   : controller.selectedVille.value,
                               decoration: InputDecoration(
@@ -134,7 +134,7 @@ class PageImmobilier extends StatelessWidget {
                             const CircularProgressIndicator()
                           else
                             // Liste des résultats (à implémenter selon vos besoins)
-                            Container(
+                            SizedBox(
                               height: 200,
                               child: Center(
                                 child: Text(

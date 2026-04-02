@@ -189,10 +189,10 @@ class LblWarningWidget extends StatelessWidget {
       color: Colors.white,
       child: const TextScroll(
         " La confiance n'exclut pas le contrôle nous vous invitons a adopter la bonne attitude, régler après la prestation et à voir notre condition générale d'utilisation article 4.",
-        velocity: const Velocity(pixelsPerSecond: Offset(30, 0)),
+        velocity: Velocity(pixelsPerSecond: Offset(30, 0)),
         mode: TextScrollMode.endless,
         style: TextStyle(
-          color: const Color.fromARGB(255, 236, 13, 13),
+          color: Color.fromARGB(255, 236, 13, 13),
           fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
