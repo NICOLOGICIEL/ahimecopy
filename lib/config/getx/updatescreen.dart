@@ -1,3 +1,6 @@
+// Utilitaire GetX pour piloter un état d'écran ou de vue.
+// Il aide à forcer ou déclencher des rafraîchissements ciblés.
+
 import 'package:get/get.dart';
 
 class ChkController extends GetxController {

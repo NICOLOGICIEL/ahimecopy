@@ -1,3 +1,6 @@
+// Widget d'entête avec image réutilisable par plusieurs modules.
+// Sert à afficher une bannière visuelle avec un titre.
+
 import 'package:flutter/material.dart';
 import 'package:ahime/config/utils/resizable.dart';
 

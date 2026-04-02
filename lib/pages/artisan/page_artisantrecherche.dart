@@ -1,3 +1,6 @@
+// Page de recherche avancée du module Artisan.
+// Sert d'écran dédié à la saisie et au filtrage des artisans sur web.
+
 import 'package:ahime/config/utils/dropdownlist.dart';
 import 'package:ahime/config/utils/my_navbar.dart';
 import 'package:ahime/config/utils/my_titlerusult.dart';

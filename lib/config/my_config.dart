@@ -1,5 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
+// Centralise les constantes globales de l'application.
+// On y retrouve notamment les couleurs, URLs et valeurs partagées.
+
 import 'package:ahime/config/utils/resizable.dart';
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:dio/dio.dart';

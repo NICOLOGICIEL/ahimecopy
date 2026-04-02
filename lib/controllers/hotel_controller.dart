@@ -1,3 +1,6 @@
+// Contrôleur GetX du module Hôtel.
+// Contient la logique de recherche, de filtrage et de chargement des hôtels.
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ahime/models/hotel_model.dart';

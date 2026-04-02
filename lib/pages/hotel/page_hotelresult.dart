@@ -1,3 +1,6 @@
+// Page listant les résultats du module Hôtel.
+// Présente les établissements trouvés après application des filtres.
+
 import 'dart:typed_data';
 import 'package:ahime/config/getx/updaterusulttext.dart';
 import 'package:dio/dio.dart';

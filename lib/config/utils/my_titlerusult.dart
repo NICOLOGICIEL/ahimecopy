@@ -1,3 +1,6 @@
+// Widget utilitaire pour afficher un titre de résultat.
+// Permet d'harmoniser la présentation des écrans de résultats.
+
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';
 import 'package:ahime/config/utils/resizable.dart';

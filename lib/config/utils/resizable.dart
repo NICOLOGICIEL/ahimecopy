@@ -1,3 +1,6 @@
+// Utilitaires responsives pour adapter les tailles à l'écran.
+// Ce fichier aide à construire des interfaces plus adaptatives.
+
 import 'package:flutter/widgets.dart';
 
 class SizeConfig {

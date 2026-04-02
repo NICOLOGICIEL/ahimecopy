@@ -1,3 +1,6 @@
+// Modèle de données représentant un hôtel ou une résidence.
+// Sert à sérialiser et manipuler les données du module Hôtel.
+
 class HotelModel {
   final String id;
   final String nom;

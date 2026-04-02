@@ -1,3 +1,6 @@
+// Contrôleur GetX du module Artisan.
+// Gère les filtres, les recherches et les résultats liés aux artisans.
+
 import 'package:get/get.dart';
 import 'package:ahime/models/artisan_model.dart';
 import 'package:ahime/services/api_service.dart';

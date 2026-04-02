@@ -1,3 +1,6 @@
+// Contrôleur GetX du module Immobilier.
+// Gère les critères de recherche et l'état des résultats immobiliers.
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:ahime/models/immobilier_model.dart';

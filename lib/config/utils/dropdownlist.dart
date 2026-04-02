@@ -1,3 +1,6 @@
+// Contient des listes ou helpers liés aux menus déroulants.
+// Simplifie la réutilisation de données pour les sélecteurs d'interface.
+
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';

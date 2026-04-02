@@ -1,3 +1,6 @@
+// Page de détail d'image du module Hôtel.
+// Permet de visualiser une image avec plus de contexte ou de taille.
+
 import 'package:ahime/pages/hotel/page_hotelimgfull.dart';
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';

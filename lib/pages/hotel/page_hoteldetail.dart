@@ -1,3 +1,6 @@
+// Page de détail d'un hôtel ou d'une résidence.
+// Affiche les informations complètes d'un élément sélectionné.
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';

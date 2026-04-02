@@ -1,3 +1,6 @@
+// Page affichant les résultats de recherche des artisans.
+// Présente la liste filtrée selon les critères choisis par l'utilisateur.
+
 import 'package:ahime/config/getx/updaterusulttext.dart';
 import 'package:ahime/pages/artisan/page_artisanimgdetail.dart';
 import 'package:flutter/material.dart';

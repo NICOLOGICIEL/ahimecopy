@@ -1,3 +1,6 @@
+// Page affichant les horaires liés à une offre de transport.
+// Elle détaille les heures ou disponibilités d'un trajet sélectionné.
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';

@@ -1,3 +1,6 @@
+// Page ou composant auxiliaire du module Hôtel.
+// Regroupe une partie spécifique de l'interface liée aux hôtels.
+
 import 'package:flutter/material.dart';
 import 'package:ahime/config/utils/my_titlerusult.dart';
 import 'package:ahime/config/utils/my_navbar.dart';

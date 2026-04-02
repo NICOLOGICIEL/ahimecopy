@@ -1,3 +1,6 @@
+// Page de recherche dédiée au module Hôtel.
+// Regroupe les champs nécessaires à une recherche plus avancée.
+
 import 'package:ahime/config/utils/dropdownlist.dart';
 import 'package:ahime/config/utils/my_navbar.dart';
 import 'package:ahime/config/utils/my_titlerusult.dart';

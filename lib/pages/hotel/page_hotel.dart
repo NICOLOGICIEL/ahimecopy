@@ -1,3 +1,6 @@
+// Page principale du module Hôtel.
+// Contient les filtres, la recherche, les raccourcis et l'espace publicitaire.
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ahime/controllers/hotel_controller.dart';

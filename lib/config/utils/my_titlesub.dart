@@ -1,3 +1,6 @@
+// Widget utilitaire pour afficher un sous-titre.
+// Facilite une présentation cohérente des sections secondaires.
+
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';
 //import 'package:ahime/config/my_config.dart';

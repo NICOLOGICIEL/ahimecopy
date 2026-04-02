@@ -1,3 +1,6 @@
+// Page principale du module Immobilier.
+// Elle gère la recherche, les filtres et l'affichage initial des résultats.
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ahime/controllers/immobilier_controller.dart';

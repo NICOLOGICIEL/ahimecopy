@@ -1,3 +1,6 @@
+// Widget de barre de navigation réutilisable dans l'application.
+// Uniformise l'entête et la navigation entre les modules.
+
 import 'package:ahime/config/utils/resizable.dart';
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';

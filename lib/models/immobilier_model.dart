@@ -1,3 +1,6 @@
+// Modèle de données représentant un bien immobilier.
+// Utilisé pour transporter et structurer les données du module Immobilier.
+
 class ImmobilierModel {
   final String id;
   final String titre;

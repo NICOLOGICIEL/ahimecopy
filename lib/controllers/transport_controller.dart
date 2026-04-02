@@ -1,3 +1,6 @@
+// Contrôleur GetX du module Transport.
+// Gère les recherches par ligne, compagnie, villes et horaires.
+
 import 'dart:developer' as developer;
 
 import 'package:ahime/models/transport_model.dart';

@@ -1,3 +1,6 @@
+// Page principale du module Transport.
+// Elle permet de rechercher des lignes ou compagnies et d'afficher une publicité.
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ahime/controllers/transport_controller.dart';

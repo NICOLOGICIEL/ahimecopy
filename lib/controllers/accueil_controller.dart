@@ -1,3 +1,6 @@
+// Contrôleur GetX de la page d'accueil.
+// Gère l'état et la logique métier liés à l'écran principal.
+
 import 'package:get/get.dart';
 
 class AccueilController extends GetxController {

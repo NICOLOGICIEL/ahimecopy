@@ -1,3 +1,6 @@
+// Page de détail d'image pour un artisan.
+// Permet d'afficher une image ou galerie en vue détaillée.
+
 //import 'package:ahime/pages/artisan/page_artisancommentaire.dart';
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';

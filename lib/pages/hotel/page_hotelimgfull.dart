@@ -1,3 +1,6 @@
+// Page d'affichage plein écran des images d'hôtel.
+// Améliore l'expérience de visualisation des médias.
+
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';
 import 'package:ahime/config/utils/resizable.dart';

@@ -1,3 +1,6 @@
+// Service centralisant les appels API de l'application.
+// Il encapsule les requêtes réseau vers les différentes sources de données.
+
 import 'package:dio/dio.dart';
 import 'package:ahime/config/my_config.dart';
 

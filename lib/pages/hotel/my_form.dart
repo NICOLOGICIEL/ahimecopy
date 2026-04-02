@@ -1,3 +1,6 @@
+// Widget de formulaire réutilisable pour le module Hôtel.
+// Isole la logique d'interface liée à la saisie ou au filtrage.
+
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';
 //import 'package:responsive_sizer/responsive_sizer.dart';

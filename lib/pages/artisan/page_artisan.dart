@@ -1,5 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
+// Page principale du module Artisan.
+// Elle regroupe l'entête, le formulaire de recherche, les messages d'alerte et la publicité.
+
 import 'package:ahime/controllers/artisan_controller.dart';
 import 'package:ahime/pages/artisan/page_artisantrecherche.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +13,22 @@ import 'package:get/get.dart';
 import 'package:platform_detector/platform_detector.dart';
 import 'package:text_scroll/text_scroll.dart';
 
+// Page principale du module Artisan.
+// Elle assemble :
+// - la barre de navigation,
+// - l'image d'en-tête,
+// - le bandeau d'avertissement,
+// - le formulaire de recherche,
+// - et un espace publicitaire.
 class PageArtisan extends StatelessWidget {
   const PageArtisan({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Récupération du contrôleur GetX déjà injecté dans l'application.
     final ArtisanController controller = Get.find();
+
+    // Initialisation du système de tailles responsives.
     SizeConfig().init(context);
     var myHeight = SizeConfig.safeBlockVertical!;
     var myWidth = SizeConfig.safeBlockHorizontal!;
@@ -30,24 +43,37 @@ class PageArtisan extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                // Barre de navigation commune de l'application.
                 MyNavbar(context: context),
+
+                // Bannière principale de la page Artisan.
                 SlideImgAWidget(
                   context: context,
                   imgPath: '$imageUri/ArtisanS.jpg',
                   title: 'Artisan',
                 ),
+
+                // Message défilant de prévention / sécurité.
                 ScrollWarningWidget(myWidth: myWidth, myHeight: myHeight),
+
+                // Si les données sont en cours de chargement, on affiche un loader.
+                // Sinon, on affiche le formulaire de recherche.
                 Obx(() => controller.isLoading.value
                     ? const CircularProgressIndicator()
                     : CtnMenuWidget(controller: controller)),
                 const SizedBox(height: 2),
+
+                // Zone dédiée à la publicité.
                 Padding(
                   padding: const EdgeInsets.only(left: 3, right: 3),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Titre de la section publicitaire.
                       MyPubText(txLibelle: 'Annonce publicitaire'),
                       SizedBox(height: myHeight * 0.5),
+
+                      // Placeholder temporaire pour accueillir une future vraie bannière pub.
                       Container(
                         height: 100,
                         color: Colors.grey[200],
@@ -73,6 +99,7 @@ class SlideImgAWidget extends StatelessWidget {
   final String imgPath;
   final String title;
 
+  // Widget d'entête avec image de fond et bouton de recherche.
   const SlideImgAWidget({
     super.key,
     required this.context,
@@ -85,6 +112,7 @@ class SlideImgAWidget extends StatelessWidget {
     SizeConfig().init(context);
     var myWidth = SizeConfig.safeBlockHorizontal!;
     final ArtisanController controller = Get.find();
+
     return Container(
       height: 235,
       width: myWidth * 100,
@@ -102,6 +130,7 @@ class SlideImgAWidget extends StatelessWidget {
           const SizedBox(height: 72),
           BtnRechercherWidget(
             onTap: () {
+              // Sur mobile : ouverture du formulaire dans une bottom sheet.
               if (isMobile()) {
                 showModalBottomSheet<void>(
                   context: context,
@@ -123,6 +152,8 @@ class SlideImgAWidget extends StatelessWidget {
                   },
                 );
               }
+
+              // Sur le web : navigation vers la page de recherche dédiée.
               if (isWeb()) {
                 Get.to(() => const PageArtisantRecherche());
               }
@@ -137,6 +168,7 @@ class SlideImgAWidget extends StatelessWidget {
 class BtnRechercherWidget extends StatelessWidget {
   final VoidCallback onTap;
 
+  // Bouton réutilisable qui déclenche l'action de recherche.
   const BtnRechercherWidget({super.key, required this.onTap});
 
   @override
@@ -178,6 +210,7 @@ class ScrollWarningWidget extends StatelessWidget {
   final double myWidth;
   final double myHeight;
 
+  // Bandeau horizontal affichant un avertissement défilant.
   const ScrollWarningWidget({
     super.key,
     required this.myWidth,
@@ -246,6 +279,8 @@ class ImgWarningWidget extends StatelessWidget {
 class CtnMenuWidget extends StatelessWidget {
   final ArtisanController controller;
 
+  // Conteneur du formulaire de recherche des artisans.
+  // Chaque champ met à jour l'état du contrôleur, puis le bouton lance la recherche.
   const CtnMenuWidget({super.key, required this.controller});
 
   @override
@@ -254,7 +289,7 @@ class CtnMenuWidget extends StatelessWidget {
       margin: const EdgeInsets.only(left: 5, right: 5),
       child: Column(
         children: [
-          // Métier
+          // Sélection du métier recherché.
           Obx(() => DropdownButton<String>(
                 value: controller.selectedMetier.value.isEmpty
                     ? null
@@ -268,7 +303,8 @@ class CtnMenuWidget extends StatelessWidget {
                 }).toList(),
                 onChanged: (value) => controller.updateSelectedMetier(value),
               )),
-          // Catégorie
+
+          // Sélection de la catégorie liée au métier.
           Obx(() => DropdownButton<String>(
                 value: controller.selectedCategorie.value.isEmpty
                     ? null
@@ -282,7 +318,8 @@ class CtnMenuWidget extends StatelessWidget {
                 }).toList(),
                 onChanged: (value) => controller.updateSelectedCategorie(value),
               )),
-          // Ville
+
+          // Sélection de la ville.
           Obx(() => DropdownButton<String>(
                 value: controller.selectedVille.value.isEmpty
                     ? null
@@ -296,16 +333,20 @@ class CtnMenuWidget extends StatelessWidget {
                 }).toList(),
                 onChanged: (value) => controller.updateSelectedVille(value),
               )),
-          // Commune
+
+          // Champ texte pour préciser la commune.
           TextField(
             onChanged: controller.updateCommune,
             decoration: const InputDecoration(labelText: 'Commune'),
           ),
-          // Quartier
+
+          // Champ texte pour préciser le quartier.
           TextField(
             onChanged: controller.updateQuartier,
             decoration: const InputDecoration(labelText: 'Quartier'),
           ),
+
+          // Déclenche la recherche en utilisant les critères saisis.
           ElevatedButton(
             onPressed: controller.searchArtisans,
             child: const Text('Rechercher'),
@@ -319,6 +360,7 @@ class CtnMenuWidget extends StatelessWidget {
 class MyPubText extends StatelessWidget {
   final String txLibelle;
 
+  // Petit widget de texte pour les titres de section publicitaire.
   const MyPubText({super.key, required this.txLibelle});
 
   @override

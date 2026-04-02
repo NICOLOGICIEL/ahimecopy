@@ -1,3 +1,6 @@
+// Point d'entrée principal de l'application Ahime.
+// Configure GetX, le thème global et les routes principales.
+
 import 'package:ahime/pages/artisan/page_artisan.dart';
 import 'package:ahime/pages/hotel/page_hotel.dart';
 import 'package:ahime/pages/transport/page_transport.dart';

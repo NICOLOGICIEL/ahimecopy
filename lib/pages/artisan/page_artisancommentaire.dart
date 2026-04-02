@@ -1,3 +1,6 @@
+// Page dédiée aux commentaires liés à un artisan.
+// Affiche et structure les retours ou avis des utilisateurs.
+
 import 'package:ahime/config/getx/updatescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:ahime/config/my_config.dart';

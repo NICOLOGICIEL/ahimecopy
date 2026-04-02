@@ -1,5 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
+// Page de résultats du module Transport.
+// Affiche les trajets ou compagnies correspondant à la recherche.
+
 import 'package:ahime/config/getx/updaterusulttext.dart';
 import 'package:ahime/pages/transport/page_transporthoraire.dart';
 import 'package:dio/dio.dart';

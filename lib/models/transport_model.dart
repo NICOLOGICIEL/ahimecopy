@@ -1,3 +1,6 @@
+// Modèle de données représentant une offre ou ligne de transport.
+// Sert de structure de base pour les résultats du module Transport.
+
 class TransportModel {
   final String id;
   final String compagnie;

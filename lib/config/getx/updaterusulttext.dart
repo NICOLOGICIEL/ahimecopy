@@ -1,3 +1,6 @@
+// Utilitaire GetX dédié à la mise à jour d'un texte de résultat.
+// Facilite la synchronisation d'un libellé dynamique avec l'interface.
+
 import 'package:get/get.dart';
 
 class NbrController extends GetxController {

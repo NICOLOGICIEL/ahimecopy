@@ -1,3 +1,6 @@
+// Déclare les dépendances globales de l'application via GetX bindings.
+// Ce fichier enregistre les contrôleurs nécessaires au démarrage.
+
 import 'package:get/get.dart';
 import 'package:ahime/controllers/accueil_controller.dart';
 import 'package:ahime/controllers/artisan_controller.dart';

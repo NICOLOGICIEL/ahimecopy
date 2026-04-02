@@ -1,3 +1,6 @@
+// Modèle de données représentant un artisan.
+// Définit la structure des informations manipulées dans le module Artisan.
+
 class ArtisanModel {
   final String id;
   final String nom;
